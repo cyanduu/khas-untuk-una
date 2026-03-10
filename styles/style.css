@@ -60,14 +60,46 @@ body {
 /* =========== GIFT BOX SECTION ============ */
 /* ========================================= */
 
-.giftbox {
+/* RESTORED THESE MISSING CLASSES! */
+.container {
+  color: rgba(55, 59, 65, 0.8);
+  font-family: Helvetica, sans-serif;
+  font-weight: lighter;
+  text-align: center;
+}
+
+h1 { font-weight: normal; }
+
+li {
+  display: inline-block;
+  font-size: 1.5em;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+li span {
+  display: block;
+  font-size: 4.5rem;
+}
+
+.merrywrap {
   position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.giftbox {
+  position: fixed;
   width: 300px;
   height: 200px;
   left: 50%;
   margin-left: -150px;
-  bottom: 0;
-  z-index: 10;
+  bottom: 20%;
+  z-index: 5000;
 }
 
 .giftbox > div {
@@ -178,18 +210,17 @@ body {
 }
 
 .essay-box {
-  /* Frosted Glass Effect */
   background-color: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.5);
   
-  /* Desktop Scroll Feature */
   max-height: 70vh;
   overflow-y: auto;
   scrollbar-width: thin;
 
-  text-align: justify;    /* Makes the text align perfectly on both sides */
-  text-justify: inter-word; /* Enhances the justification for better spacing */
+  /* Justification fixed! Removed the conflicting text-align: center */
+  text-align: justify;    
+  text-justify: inter-word; 
   
   padding: 40px;
   border-radius: 15px;
@@ -198,7 +229,6 @@ body {
   box-shadow: 0 10px 30px rgba(238, 156, 167, 0.3);
   font-family: 'Georgia', serif;
   color: #333;
-  text-align: center;
   line-height: 1.8; 
   font-size: 1.1rem;
   animation: fadeIn 2s ease-in;
@@ -207,13 +237,13 @@ body {
 .essay-box h1 {
   margin-bottom: 20px;
   color: #F64747; 
+  text-align: center; /* Keeps only the title centered */
 }
 
 .essay-box p {
   margin-bottom: 20px; 
 }
 
-/* Custom Scrollbar for Chrome/Safari */
 .essay-box::-webkit-scrollbar { width: 8px; }
 .essay-box::-webkit-scrollbar-thumb {
   background: rgba(246, 71, 71, 0.3);
@@ -231,7 +261,6 @@ body {
   animation: fadeIn 3s ease-in;
 }
 
-/* Photo Positions - Framing the screen */
 .photo1 { top: 2%; left: 15%; transform: rotate(-10deg); }
 .photo6 { top: 30%; left: 4%; transform: rotate(8deg); }
 .photo3 { bottom: 8%; left: 15%; transform: rotate(6deg); }
@@ -244,7 +273,6 @@ body {
 /* ========================================= */
 
 @media (max-width: 768px) {
-  /* Fix for the background flickering */
   body {
     overflow-y: auto !important;
     overflow-x: hidden;
@@ -254,13 +282,12 @@ body {
 
   #wishes-container {
     display: block; 
-    position: relative; /* Relative is safer for long scrolling content */
+    position: relative; 
     width: 100%;
     height: auto; 
     min-height: 100vh;
-    padding: 40px 0 150px 0; /* Extra space at bottom for lyrics */
+    padding: 40px 0 150px 0; 
     z-index: 999;
-    /* This line stops the 'glitching' on touch scroll */
     -webkit-overflow-scrolling: touch; 
   }
 
@@ -272,8 +299,7 @@ body {
     z-index: 1000; 
     text-align: justify;
     padding: 25px;
-    background-color: rgba(255, 255, 255, 0.75); /* Slightly more solid for readability */
-    /* Prevents weird text resizing on orientation change */
+    background-color: rgba(255, 255, 255, 0.75); 
     -webkit-text-size-adjust: 100%; 
   }
 
@@ -289,18 +315,16 @@ body {
     height: auto;
     margin: 20px auto;
     z-index: 10;
-    /* Remove the 'transform: none' from here to let tilts work */
   }
   
-  /* Apply tilts cleanly without conflicting with a 'none' rule */
   .photo1, .photo3, .photo5 { transform: rotate(-3deg); }
   .photo2, .photo4, .photo6 { transform: rotate(3deg); }
 
   #lyrics-display {
     width: 85%;
     font-size: 0.95rem;
-    bottom: 20px; /* Moves it to the very bottom so it doesn't block the essay */
-    white-space: normal; /* Allows lyrics to wrap if they are too long for a phone screen */
+    bottom: 20px; 
+    white-space: normal; 
     padding: 10px 15px;
   }
 }
