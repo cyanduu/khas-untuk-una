@@ -498,8 +498,16 @@ x = setInterval(function() {
 
 const musicBtn = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
-const lyricsDisplay = document.getElementById('lyrics-display');
-let isPlaying = false;
+let lyricsDisplay = document.getElementById('lyrics-display');
+if (lyricsDisplay) {
+  // This physically moves the lyrics box to the absolute top layer of your site
+  document.body.appendChild(lyricsDisplay); 
+} else {
+  // Failsafe: If it doesn't exist, build it from scratch
+  lyricsDisplay = document.createElement('div');
+  lyricsDisplay.id = 'lyrics-display';
+  document.body.appendChild(lyricsDisplay);
+}
 
 // 1. Your Lyrics Array (keep your existing one here)
 const lyrics = [
