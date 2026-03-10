@@ -398,19 +398,12 @@ x = setInterval(function() {
 
     // When the balloons float off screen, THIS triggers the pictures
     if (done) {
-      window.cancelAnimationFrame(id); // Stop the animation
-      canvasC.style.display = 'none';  // Hide the canvas
+      window.cancelAnimationFrame(id);
+      canvasC.style.display = 'none';
       
-      // Show the container (block for mobile scrolling, flex for desktop)
       let wishes = document.getElementById('wishes-container');
-      wishes.style.display = window.innerWidth < 768 ? 'block' : 'flex'; 
-
-      // --- NEW: ELEGANT FLY-IN ANIMATION ---
-      setTimeout(() => {
-        document.querySelectorAll('.scatter-photo').forEach(photo => {
-          photo.classList.add('fly-in');
-        });
-      }, 600); // Waits 0.6 seconds so the essay fades in first!
+      // We use 'flex' here so our new grid layout works automatically
+      wishes.style.display = 'flex'; 
     }
   }
 

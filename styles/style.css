@@ -281,14 +281,17 @@ li span {
   }
 
   #wishes-container {
-    position: absolute; 
+    display: flex; 
+    flex-wrap: wrap; /* Allows items to form rows */
+    justify-content: center;
+    align-items: flex-start;
+    position: relative; 
     width: 100%;
     height: auto; 
     min-height: 100vh;
-    padding: 40px 0 150px 0; 
+    padding: 20px 10px 150px 10px; 
     z-index: 999;
     -webkit-overflow-scrolling: touch; 
-    overflow-y: auto;
   }
 
   .merrywrap {
@@ -306,52 +309,42 @@ li span {
   }
 
   .essay-box {
-    width: 90%;
-    margin: 0 auto 40px auto;
+    order: 2; /* Forces the essay to load AFTER the photos */
+    width: 95%;
+    margin: 30px auto 40px auto;
     max-height: none !important; 
     position: relative;
     z-index: 1000; 
     text-align: justify;
     padding: 25px;
-    background-color: rgba(255, 255, 255, 0.75); 
+    
+    /* Adjusted for the dark theme */
+    background-color: rgba(20, 20, 20, 0.85); 
+    color: #f1f1f1; /* Light text for readability */
+    border: 1px solid #D4AF37;
     -webkit-text-size-adjust: 100%; 
   }
 
   .scatter-photo {
-    position: absolute !important; /* Takes them out of the scroll stack */
-    width: 130px; /* Scaled down to frame the essay perfectly */
-    height: 130px;
-    z-index: 10; /* Forces them BEHIND the essay box (which is 1000) */
-    opacity: 0;
+    position: relative !important;
+    order: 1; /* Forces all photos to load BEFORE the essay */
+    width: calc(50% - 20px); /* Creates a perfect 2-column grid */
+    height: 160px; /* Keeps all photos the exact same height */
+    object-fit: cover; /* Prevents stretching */
+    margin: 10px;
+    z-index: 10;
     
-    /* This creates the smooth, elegant 'swoosh' movement */
-    transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1); 
+    /* Elegant styling to match the new dark theme */
+    border: 3px solid #D4AF37; /* Gold border */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    
+    /* Strips out the messy rotations and positions */
+    transform: none !important; 
+    top: auto !important; left: auto !important; 
+    right: auto !important; bottom: auto !important;
+    opacity: 1;
   }
-  
-  /* 1. STARTING POSITION: Hidden completely off the screen */
-  .photo1, .photo3, .photo5 { left: -200px !important; right: auto !important; top: auto; }
-  .photo2, .photo4, .photo6 { right: -200px !important; left: auto !important; top: auto; }
-
-  /* Spread them vertically down the length of the essay */
-  .photo1 { top: 5%; }
-  .photo2 { top: 15%; }
-  .photo3 { top: 35%; }
-  .photo4 { top: 55%; }
-  .photo5 { top: 75%; }
-  .photo6 { top: 85%; }
-
-  /* 2. ENDING POSITION: When JS adds the .fly-in class */
-  .scatter-photo.fly-in {
-    opacity: 0.85; /* Slightly faded so they don't overpower the essay */
-  }
-
-  /* They slide in and stop just peeking out from the left and right edges */
-  .photo1.fly-in { left: -15px !important; transform: rotate(-12deg) !important; }
-  .photo2.fly-in { right: -15px !important; transform: rotate(10deg) !important; }
-  .photo3.fly-in { left: -25px !important; transform: rotate(8deg) !important; }
-  .photo4.fly-in { right: -10px !important; transform: rotate(-12deg) !important; }
-  .photo5.fly-in { left: -10px !important; transform: rotate(-5deg) !important; }
-  .photo6.fly-in { right: -20px !important; transform: rotate(14deg) !important; }
 
   #lyrics-display {
     width: 85%;
