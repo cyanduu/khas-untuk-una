@@ -498,18 +498,20 @@ x = setInterval(function() {
 
 const musicBtn = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
+let isPlaying = false; // <--- THE MISSING PIECE!
+let currentlyShowingText = "";
+
+// 1. THE JAILBREAK: Move lyrics box so it's never hidden by other containers
 let lyricsDisplay = document.getElementById('lyrics-display');
 if (lyricsDisplay) {
-  // This physically moves the lyrics box to the absolute top layer of your site
-  document.body.appendChild(lyricsDisplay); 
+    document.body.appendChild(lyricsDisplay); 
 } else {
-  // Failsafe: If it doesn't exist, build it from scratch
-  lyricsDisplay = document.createElement('div');
-  lyricsDisplay.id = 'lyrics-display';
-  document.body.appendChild(lyricsDisplay);
+    lyricsDisplay = document.createElement('div');
+    lyricsDisplay.id = 'lyrics-display';
+    document.body.appendChild(lyricsDisplay);
 }
 
-// 1. Your Lyrics Array (keep your existing one here)
+// 2. Your Lyrics Array
 const lyrics = [
   { time: 0, text: "🎶..." },
   { time: 12, text: "Ku adalah manusia yang paling beruntung memiliki kamu" },
@@ -534,9 +536,7 @@ const lyrics = [
   { time: 265, text: "🎶..." }
 ];
 
-let currentlyShowingText = "";
-
-// 2. The Play/Pause Logic (Brute Force Show/Hide)
+// 3. The Play/Pause Logic
 musicBtn.addEventListener('click', function() {
   if (isPlaying) {
     bgMusic.pause();
@@ -551,7 +551,7 @@ musicBtn.addEventListener('click', function() {
   isPlaying = !isPlaying;
 });
 
-// 3. Brute Force Lyrics Update
+// 4. Lyrics Sync Logic
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let currentText = "🎶...";
@@ -562,16 +562,21 @@ bgMusic.addEventListener('timeupdate', () => {
     }
   }
 
-  // Update text only if it actually changed
   if (currentlyShowingText !== currentText) {
     currentlyShowingText = currentText;
     lyricsDisplay.innerHTML = currentText;
   }
 
-  // Force visibility properties while playing
   if (isPlaying) {
     lyricsDisplay.style.setProperty('display', 'block', 'important');
-    let textIsEmpty = (currentText.trim() === "");
+    let textIsEmpty = (currentText.trim() === "" || currentText === " ");
     lyricsDisplay.style.setProperty('opacity', textIsEmpty ? '0' : '1', 'important');
   }
 });
+
+// 5. THE FIX: Force the Button to appear when the gift is clicked
+// Look for where your code handles the "gift click" and ensure this is triggered:
+function showMusicButton() {
+    musicBtn.style.setProperty('display', 'block', 'important');
+    musicBtn.style.setProperty('opacity', '1', 'important');
+}
