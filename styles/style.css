@@ -401,22 +401,29 @@ li span {
 }
 
 #lyrics-display {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10000;
-  background-color: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(4px);
-  padding: 10px 25px;
-  border-radius: 20px;
+  position: fixed !important;
+  bottom: 30px !important; /* Adjusted so it's visible on both sections */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 999999 !important; /* Higher than EVERYTHING else */
+  
+  /* Styling to make it pop against both light and dark backgrounds */
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid #D4AF37 !important;
+  color: #D4AF37 !important;
+  padding: 12px 25px !important;
+  border-radius: 25px !important;
+  
   font-family: 'Georgia', serif;
-  font-size: 1.2rem;
-  font-style: italic;
-  color: #333;
+  font-size: 1.1rem;
   text-align: center;
-  transition: opacity 0.4s ease-in-out; 
-  opacity: 1;
+  min-width: 280px;
+  
+  /* Ensure it's not hidden by default */
+  display: none; 
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 #lyrics-display small {

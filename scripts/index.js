@@ -545,8 +545,13 @@ musicBtn.addEventListener('click', function() {
   } else {
     bgMusic.play();
     musicBtn.innerText = '🔇 Pause Lagu';
-    lyricsDisplay.style.setProperty('display', 'block', 'important');
-    lyricsDisplay.style.setProperty('opacity', '1', 'important');
+    // --- ADD THIS LINE ---
+    document.body.appendChild(lyricsDisplay); 
+    // This physically moves the lyrics box to the very end of the HTML 
+    // so it's always on the top-most layer.
+    
+    lyricsDisplay.style.display = 'block';
+    lyricsDisplay.style.opacity = 1;
   }
   isPlaying = !isPlaying;
 });
