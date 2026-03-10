@@ -84,22 +84,24 @@ li span {
 }
 
 .merrywrap {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 200px;
-  z-index: 5000;
+  position: fixed; /* Locks to the screen window, ignoring scrollbars */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 
 .giftbox {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  bottom: 0;
-  /* Removed the margin-left and bottom positioning from here */
+  width: 300px;
+  height: 200px;
+  /* The Classic Centering Math */
+  left: 50%;
+  top: 50%;
+  margin-left: -150px; /* Exactly half of the 300px width */
+  margin-top: -100px;  /* Exactly half of the 200px height */
+  z-index: 5000;
 }
 
 .giftbox > div {
