@@ -281,16 +281,14 @@ li span {
   }
 
   #wishes-container {
-    display: flex; 
-    flex-wrap: wrap; /* Allows items to form rows */
-    justify-content: center;
-    align-items: flex-start;
+    display: block; 
     position: relative; 
     width: 100%;
     height: auto; 
     min-height: 100vh;
-    padding: 20px 10px 150px 10px; 
+    padding: 20px 0 150px 0; 
     z-index: 999;
+    overflow-x: hidden; /* Prevents side-scrolling */
     -webkit-overflow-scrolling: touch; 
   }
 
@@ -309,42 +307,48 @@ li span {
   }
 
   .essay-box {
-    order: 2; /* Forces the essay to load AFTER the photos */
-    width: 95%;
-    margin: 30px auto 40px auto;
-    max-height: none !important; 
-    position: relative;
-    z-index: 1000; 
-    text-align: justify;
-    padding: 25px;
+    width: 82%; /* Takes up the right side */
+    margin: 0 3% 40px auto; /* Pushes the box entirely to the right */
+    padding: 30px 20px 30px 40px; /* Extra thick left padding so text avoids the overlapping photos */
     
-    /* Adjusted for the dark theme */
-    background-color: rgba(20, 20, 20, 0.85); 
-    color: #f1f1f1; /* Light text for readability */
-    border: 1px solid #D4AF37;
-    -webkit-text-size-adjust: 100%; 
+    font-size: 0.85rem; /* Reduced font size to fit the narrower space */
+    line-height: 1.6;
+    text-align: justify;
+    
+    background-color: rgba(20, 20, 20, 0.85); /* Dark elegant theme */
+    color: #f1f1f1; 
+    border: 1px solid #D4AF37; /* Gold border */
+    position: relative;
+    z-index: 1; /* Stays UNDER the photos */
+  }
+
+  .essay-box h1 {
+    font-size: 1.5rem;
+    text-align: right; /* Aligns title to the right so the left photos don't cover it */
+    margin-bottom: 15px;
+    color: #D4AF37; /* Gold text */
   }
 
   .scatter-photo {
-    position: relative !important;
-    order: 1; /* Forces all photos to load BEFORE the essay */
-    width: calc(50% - 20px); /* Creates a perfect 2-column grid */
-    height: 160px; /* Keeps all photos the exact same height */
-    object-fit: cover; /* Prevents stretching */
-    margin: 10px;
-    z-index: 10;
+    position: absolute !important;
+    left: 2%; /* Hugs the left edge of the screen */
+    width: 90px; /* Shrunk down to frame the essay */
+    height: 90px;
+    object-fit: cover;
+    z-index: 10; /* Forces photos to overlap ON TOP of the essay box */
     
-    /* Elegant styling to match the new dark theme */
-    border: 3px solid #D4AF37; /* Gold border */
+    border: 2px solid #D4AF37; /* Gold borders */
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    
-    /* Strips out the messy rotations and positions */
-    transform: none !important; 
-    top: auto !important; left: auto !important; 
-    right: auto !important; bottom: auto !important;
-    opacity: 1;
+    box-shadow: 3px 3px 12px rgba(0,0,0,0.8);
   }
+
+  /* Cascading vertical stack down the left side with elegant tilts */
+  .photo1 { top: 80px; transform: rotate(-6deg) !important; }
+  .photo2 { top: 190px; transform: rotate(4deg) !important; }
+  .photo3 { top: 300px; transform: rotate(-5deg) !important; }
+  .photo4 { top: 410px; transform: rotate(6deg) !important; }
+  .photo5 { top: 520px; transform: rotate(-4deg) !important; }
+  .photo6 { top: 630px; transform: rotate(5deg) !important; }
 
   #lyrics-display {
     width: 85%;
