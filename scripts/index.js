@@ -502,6 +502,11 @@ const lyricsDisplay = document.getElementById('lyrics-display');
 let isPlaying = false;
 let currentLyricsText = "";
 
+// MOVE TO BODY IMMEDIATELY ON LOAD
+if (lyricsDisplay) {
+    document.body.appendChild(lyricsDisplay);
+}
+
 // 1. Array
 const lyrics = [
   { time: 0, text: "🎶..." },
@@ -548,7 +553,7 @@ musicBtn.addEventListener('click', () => {
 bgMusic.addEventListener('timeupdate', () => {
     if (bgMusic.paused) return;
 
-    let match = lyrics[0].text;
+    let match = "🎶...";
     for (let i = 0; i < lyrics.length; i++) {
         if (bgMusic.currentTime >= lyrics[i].time) {
             match = lyrics[i].text;
@@ -558,12 +563,11 @@ bgMusic.addEventListener('timeupdate', () => {
     if (currentLyricsText !== match) {
         currentLyricsText = match;
         lyricsDisplay.innerHTML = match;
-        
-        // Handle visibility for empty timestamps
-        if (match.trim() === "" || match === " ") {
-            lyricsDisplay.style.opacity = "0";
-        } else {
-            lyricsDisplay.style.opacity = "1";
-        }
+    }
+
+    // Force show if music is playing
+    if (isPlaying) {
+        lyricsDisplay.style.setProperty('display', 'block', 'important');
+        lyricsDisplay.style.setProperty('opacity', (match.trim() === "" || match === " ") ? "0" : "1", 'important');
     }
 });
