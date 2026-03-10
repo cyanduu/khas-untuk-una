@@ -286,7 +286,8 @@ li span {
     width: 100%;
     height: auto; 
     min-height: 100vh;
-    padding: 20px 0 150px 0; 
+    /* FIX: Reduced bottom padding so the bottom photos get pulled up */
+    padding: 20px 0 20px 0; 
     z-index: 999;
     overflow-x: hidden; 
     -webkit-overflow-scrolling: touch; 
@@ -309,7 +310,8 @@ li span {
   /* Exactly as it was in your screenshot */
   .essay-box {
     width: 82%; 
-    margin: 0 3% 100px auto; /* Added 100px bottom margin for the bottom pics */
+    /* FIX: 70px top margin pushes it below the music button. 80px bottom margin makes room for the bottom photos. */
+    margin: 70px 3% 80px auto; 
     padding: 30px 20px 30px 40px; 
     
     font-size: 0.85rem; 
@@ -336,22 +338,21 @@ li span {
     height: 90px !important;
     object-fit: cover !important;
     z-index: 10 !important; 
-    
     border: 2px solid #D4AF37 !important; 
     border-radius: 8px !important;
     box-shadow: 3px 3px 12px rgba(0,0,0,0.8) !important;
-    image-rendering: -webkit-optimize-contrast !important; /* Keeps it HD */
+    image-rendering: -webkit-optimize-contrast !important; 
   }
 
-  /* 3 Photos hugging the Left Edge */
-  .photo1 { top: 80px; left: 2% !important; right: auto !important; transform: rotate(-6deg) !important; }
-  .photo2 { top: 220px; left: 2% !important; right: auto !important; transform: rotate(4deg) !important; }
-  .photo3 { top: 360px; left: 2% !important; right: auto !important; transform: rotate(-5deg) !important; }
+  /* 3 Photos hugging the Left Edge (Pushed down slightly to match the new essay box top margin) */
+  .photo1 { top: 90px; left: 2% !important; right: auto !important; transform: rotate(-6deg) !important; }
+  .photo2 { top: 230px; left: 2% !important; right: auto !important; transform: rotate(4deg) !important; }
+  .photo3 { top: 370px; left: 2% !important; right: auto !important; transform: rotate(-5deg) !important; }
 
-  /* 3 Photos along the Bottom Edge */
-  .photo4 { bottom: 40px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
-  .photo5 { bottom: 30px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
-  .photo6 { bottom: 40px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
+  /* 3 Photos perfectly snapped to the bottom of the container */
+  .photo4 { bottom: 10px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
+  .photo5 { bottom: 0px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
+  .photo6 { bottom: 10px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
 
   /* Lyrics Box Forced Visibility */
   #lyrics-display {
