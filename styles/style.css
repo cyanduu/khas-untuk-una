@@ -293,11 +293,12 @@ li span {
   }
 
   .merrywrap {
-    position: fixed; /* Locks to the phone screen */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
+    z-index: 50; /* Lowered this so lyrics can sit on top */
   }
 
   .giftbox {
@@ -354,21 +355,25 @@ li span {
   .photo5 { bottom: 10px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
   .photo6 { bottom: 20px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
 
-  /* Lyrics Box Forced Visibility */
   #lyrics-display {
     position: fixed !important;
-    display: none; /* JS will change this to block */
-    width: 85%;
-    font-size: 0.95rem;
-    bottom: 20px; 
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: normal; 
-    padding: 10px 15px;
-    background: rgba(10, 10, 10, 0.95) !important;
+    bottom: 20px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    
+    /* THE MOST IMPORTANT PART: */
+    z-index: 9999999 !important; 
+    display: none; /* JS will turn this to 'block' */
+    
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.9) !important;
     color: #D4AF37 !important;
-    border: 1px solid #D4AF37 !important;
-    z-index: 99999 !important; 
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #D4AF37;
+    text-align: center;
+    pointer-events: none; /* Makes sure you can click "through" it if needed */
   }
 }
 

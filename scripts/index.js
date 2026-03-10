@@ -498,15 +498,11 @@ x = setInterval(function() {
 
 const musicBtn = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
-let lyricsDisplay = document.getElementById('lyrics-display');
-let isPlaying = false; 
-let currentlyShowingText = "";
+const lyricsDisplay = document.getElementById('lyrics-display');
+let isPlaying = false;
+let currentLyricsText = "";
 
-// MOVE BOX TO BODY IMMEDIATELY
-if (lyricsDisplay) {
-    document.body.appendChild(lyricsDisplay); 
-}
-
+// 1. Array
 const lyrics = [
   { time: 0, text: "🎶..." },
   { time: 12, text: "Ku adalah manusia yang paling beruntung memiliki kamu" },
@@ -531,42 +527,43 @@ const lyrics = [
   { time: 265, text: "🎶..." }
 ];
 
-musicBtn.addEventListener('click', function() {
-  if (isPlaying) {
-    bgMusic.pause();
-    musicBtn.innerText = '🎵 Lagu Sini!';
-    lyricsDisplay.style.setProperty('display', 'none', 'important');
-  } else {
-    bgMusic.play();
-    musicBtn.innerText = '🔇 Pause Lagu';
-    // Move it again just in case
-    document.body.appendChild(lyricsDisplay); 
-    lyricsDisplay.style.setProperty('display', 'block', 'important');
-    lyricsDisplay.style.setProperty('opacity', '1', 'important');
-  }
-  isPlaying = !isPlaying;
+// 2. Button Click
+musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play();
+        isPlaying = true;
+        musicBtn.innerText = '🔇 Pause Lagu';
+        // FORCE MOVE TO BODY (Rescue from hidden divs)
+        document.body.appendChild(lyricsDisplay);
+        lyricsDisplay.style.setProperty('display', 'block', 'important');
+    } else {
+        bgMusic.pause();
+        isPlaying = false;
+        musicBtn.innerText = '🎵 Lagu Sini!';
+        lyricsDisplay.style.setProperty('display', 'none', 'important');
+    }
 });
 
+// 3. The Sync
 bgMusic.addEventListener('timeupdate', () => {
-  const currentTime = bgMusic.currentTime;
-  let currentText = "🎶...";
+    if (bgMusic.paused) return;
 
-  for (let i = 0; i < lyrics.length; i++) {
-    if (currentTime >= lyrics[i].time) {
-      currentText = lyrics[i].text;
+    let match = lyrics[0].text;
+    for (let i = 0; i < lyrics.length; i++) {
+        if (bgMusic.currentTime >= lyrics[i].time) {
+            match = lyrics[i].text;
+        }
     }
-  }
 
-  if (currentlyShowingText !== currentText) {
-    currentlyShowingText = currentText;
-    lyricsDisplay.innerHTML = currentText;
-  }
-
-  // FORCE VISIBILITY REGARDLESS OF WHICH SECTION IS ACTIVE
-  if (!bgMusic.paused) {
-    lyricsDisplay.style.setProperty('display', 'block', 'important');
-    lyricsDisplay.style.setProperty('z-index', '999999', 'important');
-    let textIsEmpty = (currentText.trim() === "" || currentText === " ");
-    lyricsDisplay.style.setProperty('opacity', textIsEmpty ? '0' : '1', 'important');
-  }
+    if (currentLyricsText !== match) {
+        currentLyricsText = match;
+        lyricsDisplay.innerHTML = match;
+        
+        // Handle visibility for empty timestamps
+        if (match.trim() === "" || match === " ") {
+            lyricsDisplay.style.opacity = "0";
+        } else {
+            lyricsDisplay.style.opacity = "1";
+        }
+    }
 });
