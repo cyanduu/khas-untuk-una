@@ -308,26 +308,20 @@ li span {
 
   .essay-box {
     width: 85%; 
-    margin: 40px auto 80px auto; /* Extra margin on bottom for the photos */
+    margin: 40px auto 80px auto; 
     
-    /* LEFT: 55px padding. BOTTOM: 60px padding. 
-       This forces the text to stay away from the photos! */
-    padding: 30px 20px 60px 55px; 
+    /* Normal padding so your text isn't cramped! */
+    padding: 30px; 
     
-    font-size: 0.9rem; 
+    font-size: 0.95rem; 
     line-height: 1.6;
-    text-align: left !important; /* Left alignment fixes the cramping */
+    text-align: left !important; 
     
     background-color: rgba(20, 20, 20, 0.85); 
     color: #f1f1f1; 
     border: 1px solid #D4AF37; 
     position: relative;
     z-index: 1; 
-  }
-
-  .essay-box p, .essay-box h1 {
-    position: relative;
-    z-index: 20; 
   }
 
   .essay-box h1 {
@@ -337,30 +331,28 @@ li span {
     color: #D4AF37; 
   }
 
+  /* 2. THE PHOTOS (Scrapbook overlap style) */
   .scatter-photo {
     position: absolute !important;
-    width: 70px !important; 
-    height: 70px !important;
+    width: 75px !important; 
+    height: 75px !important;
     object-fit: cover !important;
     z-index: 10 !important; 
     
     border: 2px solid #D4AF37 !important; 
     border-radius: 6px !important;
     box-shadow: 2px 4px 10px rgba(0,0,0,0.8) !important;
-    
     image-rendering: -webkit-optimize-contrast !important;
   }
 
-  /* 3. STRICT L-SHAPE BORDER (Half outside, half inside) */
-  /* Left Side - Snapped strictly to the left edge */
-  .photo1 { top: 5%; left: -35px !important; right: auto !important; bottom: auto !important; transform: rotate(-8deg) !important; }
-  .photo2 { top: 40%; left: -35px !important; right: auto !important; bottom: auto !important; transform: rotate(5deg) !important; }
-  .photo3 { top: 75%; left: -35px !important; right: auto !important; bottom: auto !important; transform: rotate(-6deg) !important; }
+  /* 3. THE NATURAL OVERLAP (Anchored to the borders) */
+  .photo1 { top: -20px; left: -20px; transform: rotate(-8deg) !important; }
+  .photo2 { top: 35%; left: -25px; transform: rotate(5deg) !important; }
+  .photo3 { top: 75%; left: -15px; transform: rotate(-6deg) !important; }
   
-  /* Bottom Side - Snapped strictly to the bottom edge */
-  .photo4 { bottom: -35px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
-  .photo5 { bottom: -35px !important; left: 45% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
-  .photo6 { bottom: -35px !important; right: -10px !important; top: auto !important; left: auto !important; transform: rotate(8deg) !important; }
+  .photo4 { bottom: -20px; left: 15%; transform: rotate(7deg) !important; }
+  .photo5 { bottom: -25px; left: 50%; transform: rotate(-4deg) !important; }
+  .photo6 { bottom: -15px; right: -10px; transform: rotate(8deg) !important; }
 
   #lyrics-display {
     width: 85%;

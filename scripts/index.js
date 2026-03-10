@@ -501,7 +501,7 @@ const bgMusic = document.getElementById('bgMusic');
 const lyricsDisplay = document.getElementById('lyrics-display');
 let isPlaying = false;
 
-// 1. Write your lyrics here and set the time (in seconds) they should appear!
+// 1. Your Lyrics Array (keep your existing one here)
 const lyrics = [
   { time: 0, text: "🎶..." },
   { time: 12, text: "Ku adalah manusia yang paling beruntung memiliki kamu" },
@@ -521,49 +521,45 @@ const lyrics = [
   { time: 206, text: "Takkan lelah mendampingimu" },
   { time: 212, text: "Hoooo ohhhh..." },
   { time: 217, text: "Ku kan berjanji seumur hidupku takkan lelah mendampingimu" },
-  { time: 239, text: " " }, // This clears the screen after the line finishes
+  { time: 239, text: " " }, 
   { time: 246, text: "Ku kan berjanji seumur hidupku takkan lelah mendampingimu" },
-  { time: 265, text: "🎶..." } // This clears the screen after the line finishes
+  { time: 265, text: "🎶..." }
 ];
 
-// 2. The Play/Pause Button Logic
+// 2. The Play/Pause Logic (Forces the box to show/hide)
 musicBtn.addEventListener('click', function() {
   if (isPlaying) {
     bgMusic.pause();
     musicBtn.innerText = '🎵 Lagu Sini!';
+    lyricsDisplay.style.display = 'none'; // Hide when paused
   } else {
     bgMusic.play();
     musicBtn.innerText = '🔇 Pause Lagu';
-    lyricsDisplay.style.display = 'block'; // Show lyrics when music starts
+    lyricsDisplay.style.display = 'block'; // Force show when playing
+    lyricsDisplay.style.opacity = 1;       // Force opacity
   }
   isPlaying = !isPlaying;
 });
 
-let currentlyShowingText = "🎶...";
+// 3. Bulletproof Lyrics Sync (Instant swap, no buggy animations)
+let currentlyShowingText = "";
 
-// 3. Reverted Lyrics Sync Logic (Simple Fade)
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let currentText = "🎶...";
 
-  // Find which lyric should be showing right now
   for (let i = 0; i < lyrics.length; i++) {
     if (currentTime >= lyrics[i].time) {
       currentText = lyrics[i].text;
     }
   }
 
-  // If the text needs to change, fade it out, change it, and fade it back in
-  // We use .innerHTML here so your <br> and <small> tags work
-  if (lyricsDisplay.innerHTML !== currentText) {
+  // Instantly update the HTML without timeouts
+  if (currentlyShowingText !== currentText) {
     currentlyShowingText = currentText;
-    lyricsDisplay.style.opacity = 0; 
+    lyricsDisplay.innerHTML = currentText;
     
-    setTimeout(() => {
-      lyricsDisplay.innerHTML = currentText;
-      
-      // Keep it hidden if the text is just a space " "
-      lyricsDisplay.style.opacity = (currentText.trim() === "") ? 0 : 1;
-    }, 400); 
+    // Hide the box if the text is just a blank space
+    lyricsDisplay.style.opacity = (currentText.trim() === "") ? 0 : 1;
   }
 });
