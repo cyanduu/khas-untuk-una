@@ -498,20 +498,15 @@ x = setInterval(function() {
 
 const musicBtn = document.getElementById('musicToggle');
 const bgMusic = document.getElementById('bgMusic');
-let isPlaying = false; // <--- THE MISSING PIECE!
+let lyricsDisplay = document.getElementById('lyrics-display');
+let isPlaying = false; 
 let currentlyShowingText = "";
 
-// 1. THE JAILBREAK: Move lyrics box so it's never hidden by other containers
-let lyricsDisplay = document.getElementById('lyrics-display');
+// MOVE BOX TO BODY IMMEDIATELY
 if (lyricsDisplay) {
     document.body.appendChild(lyricsDisplay); 
-} else {
-    lyricsDisplay = document.createElement('div');
-    lyricsDisplay.id = 'lyrics-display';
-    document.body.appendChild(lyricsDisplay);
 }
 
-// 2. Your Lyrics Array
 const lyrics = [
   { time: 0, text: "🎶..." },
   { time: 12, text: "Ku adalah manusia yang paling beruntung memiliki kamu" },
@@ -536,7 +531,6 @@ const lyrics = [
   { time: 265, text: "🎶..." }
 ];
 
-// 3. The Play/Pause Logic
 musicBtn.addEventListener('click', function() {
   if (isPlaying) {
     bgMusic.pause();
@@ -545,18 +539,14 @@ musicBtn.addEventListener('click', function() {
   } else {
     bgMusic.play();
     musicBtn.innerText = '🔇 Pause Lagu';
-    // --- ADD THIS LINE ---
+    // Move it again just in case
     document.body.appendChild(lyricsDisplay); 
-    // This physically moves the lyrics box to the very end of the HTML 
-    // so it's always on the top-most layer.
-    
-    lyricsDisplay.style.display = 'block';
-    lyricsDisplay.style.opacity = 1;
+    lyricsDisplay.style.setProperty('display', 'block', 'important');
+    lyricsDisplay.style.setProperty('opacity', '1', 'important');
   }
   isPlaying = !isPlaying;
 });
 
-// 4. Lyrics Sync Logic
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let currentText = "🎶...";
@@ -572,16 +562,11 @@ bgMusic.addEventListener('timeupdate', () => {
     lyricsDisplay.innerHTML = currentText;
   }
 
-  if (isPlaying) {
+  // FORCE VISIBILITY REGARDLESS OF WHICH SECTION IS ACTIVE
+  if (!bgMusic.paused) {
     lyricsDisplay.style.setProperty('display', 'block', 'important');
+    lyricsDisplay.style.setProperty('z-index', '999999', 'important');
     let textIsEmpty = (currentText.trim() === "" || currentText === " ");
     lyricsDisplay.style.setProperty('opacity', textIsEmpty ? '0' : '1', 'important');
   }
 });
-
-// 5. THE FIX: Force the Button to appear when the gift is clicked
-// Look for where your code handles the "gift click" and ensure this is triggered:
-function showMusicButton() {
-    musicBtn.style.setProperty('display', 'block', 'important');
-    musicBtn.style.setProperty('opacity', '1', 'important');
-}
