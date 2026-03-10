@@ -84,11 +84,11 @@ li span {
 }
 
 .merrywrap {
-  position: fixed; /* Locks to the screen window, ignoring scrollbars */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  right: 40px;
+  left: 40px;
+  bottom: 80px;
+  top: 40px;
   z-index: 100;
 }
 
@@ -96,11 +96,9 @@ li span {
   position: absolute;
   width: 300px;
   height: 200px;
-  /* The Classic Centering Math */
   left: 50%;
-  top: 50%;
-  margin-left: -150px; /* Exactly half of the 300px width */
-  margin-top: -100px;  /* Exactly half of the 200px height */
+  margin-left: -150px;
+  bottom: 0;
   z-index: 5000;
 }
 
@@ -292,6 +290,20 @@ li span {
     z-index: 999;
     -webkit-overflow-scrolling: touch; 
     overflow-y: auto;
+  }
+
+  .merrywrap {
+    position: fixed; /* Locks to the phone screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .giftbox {
+    top: 50%; 
+    bottom: auto; /* This cancels out the desktop 'bottom: 0' rule */
+    margin-top: -100px; /* Pulls the box up to perfectly center it */
   }
 
   .essay-box {
