@@ -4,18 +4,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>Happy Birthday!</title>
+  <title>Khas untuk Una</title>
 
   <link rel="stylesheet" href="styles/flexbox-center-container.css" media="all">
   <link rel="stylesheet" href="styles/system-fonts.css" media="all">
   <link rel="stylesheet" href="styles/style.css" media="all">
-</head>
+  
+  </head>
 
 <body>
-  <canvas id=c></canvas>
+  <canvas id="c"></canvas>
   <canvas id="confetti"></canvas>
+  
   <div class="container" id="count">
-    <h1 id="head">Countdown to your birthday:</h1>
+    <h1 id="head">Berapa hari lagi?:</h1>
     <ul>
       <li><span id="day"></span>days</li>
       <li><span id="hour"></span>hours</li>
@@ -23,6 +25,7 @@
       <li><span id="second"></span>seconds</li>
     </ul>
   </div>
+
   <div id="merrywrap" class="merrywrap">
     <canvas id="snowfall"></canvas>
     <div class="giftbox">
@@ -31,7 +34,36 @@
       </div>
       <div class="box"></div>
     </div>
-</body>
+  <div id="wishes-container" style="display: none;">
+    
+    <img src="images/photo1.jpg" class="scatter-photo photo1" alt="Memory 1">
+    <img src="images/photo2.jpg" class="scatter-photo photo2" alt="Memory 2">
+    <img src="images/photo3.jpg" class="scatter-photo photo3" alt="Memory 3">
+    <img src="images/photo4.jpg" class="scatter-photo photo4" alt="Memory 4">
+    <img src="images/photo5.jpg" class="scatter-photo photo5" alt="Memory 5">
+    <img src="images/photo6.jpg" class="scatter-photo photo6" alt="Memory 6">
+
+    <div class="essay-box">
+      <h1>Happy Birthday, Sayang!</h1>
+      <p>
+        Put your long essay of wishes right here. You can write as much as you want! 
+        Because we are putting it inside this box, it will wrap nicely and be super 
+        easy for her to read.
+      </p>
+      <p>
+        You can even use multiple paragraphs by adding more p tags like this one.
+      </p>
+    </div>
+
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="Cinta Sesungguhnya.mp3" type="audio/mpeg">
+  </audio>
+  <div id="lyrics-display" style="display: none;">🎶...</div>
+  <button id="musicToggle" style="display: none;">🎵 Lagu Sini!</button>
+
+  </body>
 <script src="scripts/confetti.min.js" charset="utf-8"></script>
 <script src="scripts/index.js" charset="utf-8"></script>
 

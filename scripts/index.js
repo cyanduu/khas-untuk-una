@@ -4,8 +4,8 @@ const giftbox = document.getElementById('merrywrap');
 const canvasC = document.getElementById('c');
 
 const config = {
-  birthdate: 'Jan 29, 2020',
-  name: 'Darlene'
+  birthdate: 'March 10, 2026',
+  name: 'Nurul Husna Izzati'
 };
 
 function hideEverything() {
@@ -49,9 +49,9 @@ x = setInterval(function() {
     hh = h / 2,
     opts = {
       strings: ['HAPPY', 'BIRTHDAY!', config.name],
-      charSize: 30,
-      charSpacing: 35,
-      lineHeight: 40,
+      charSize: 40,
+      charSpacing: 45,
+      lineHeight: 60,
 
       cx: w / 2,
       cy: h / 2,
@@ -77,7 +77,7 @@ x = setInterval(function() {
       fireworkShardAddedSize: 3,
       gravity: 0.1,
       upFlow: -0.1,
-      letterContemplatingWaitTime: 360,
+      letterContemplatingWaitTime: 1200,
       balloonSpawnTime: 20,
       balloonBaseInflateTime: 10,
       balloonAddedInflateTime: 10,
@@ -97,7 +97,7 @@ x = setInterval(function() {
     TauQuarter = Tau / 4,
     letters = [];
 
-  ctx.font = opts.charSize + 'px Verdana';
+  ctx.font = 'bold ' + opts.charSize + 'px Georgia, serif';
 
   function Letter(char, x, y) {
     this.char = char;
@@ -403,11 +403,13 @@ x = setInterval(function() {
     ctx.bezierCurveTo(x + size / 4, y - size, x + size / 2, y - size / 2, x, y);
   }
 
-  function anim() {
-    window.requestAnimationFrame(anim);
+  let animId; // Add this variable right above the function
 
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, w, h);
+  function anim() {
+    // This grabs the animation ID so we can stop it later
+    const id = window.requestAnimationFrame(anim);
+
+    ctx.clearRect(0, 0, w, h);
 
     ctx.translate(hw, hh);
 
@@ -419,17 +421,27 @@ x = setInterval(function() {
 
     ctx.translate(-hw, -hh);
 
-    if (done) for (let l = 0; l < letters.length; ++l) letters[l].reset();
+    // When the balloons float off screen, THIS triggers the pictures
+    if (done) {
+      window.cancelAnimationFrame(id); // Stop the animation
+      canvasC.style.display = 'none';  // Hide the canvas
+      document.getElementById('wishes-container').style.display = 'flex'; // Show your pictures
+    }
   }
 
+  // WE MUST KEEP THIS PART! This is what actually creates the text.
+  // If this is missing, the animation skips straight to the pictures.
   for (let i = 0; i < opts.strings.length; ++i) {
     for (let j = 0; j < opts.strings[i].length; ++j) {
       letters.push(
         new Letter(
           opts.strings[i][j],
+          
+          // THIS is the line that fixed the centering!
           j * opts.charSpacing +
             opts.charSpacing / 2 -
-            (opts.strings[i].length * opts.charSize) / 2,
+            (opts.strings[i].length * opts.charSpacing) / 2, 
+            
           i * opts.lineHeight +
             opts.lineHeight / 2 -
             (opts.strings.length * opts.lineHeight) / 2
@@ -445,7 +457,7 @@ x = setInterval(function() {
     hw = w / 2;
     hh = h / 2;
 
-    ctx.font = opts.charSize + 'px Verdana';
+    ctx.font = 'bold ' + opts.charSize + 'px Georgia, serif';
   });
 
   if (distance > 0) {
@@ -456,6 +468,8 @@ x = setInterval(function() {
     count.style.display = 'none';
     giftbox.style.display = 'initial';
     clearInterval(x);
+
+    document.getElementById('musicToggle').style.display = 'block';
     let merrywrap = document.getElementById('merrywrap');
     let box = merrywrap.getElementsByClassName('giftbox')[0];
     let step = 1;
@@ -499,3 +513,76 @@ x = setInterval(function() {
   //     console.log("happy birthday");
   // }
 }, second);
+
+// =========================================
+// ========== MUSIC & LYRICS LOGIC =========
+// =========================================
+
+const musicBtn = document.getElementById('musicToggle');
+const bgMusic = document.getElementById('bgMusic');
+const lyricsDisplay = document.getElementById('lyrics-display');
+let isPlaying = false;
+
+// 1. Write your lyrics here and set the time (in seconds) they should appear!
+const lyrics = [
+  { time: 0, text: "🎶..." },
+  { time: 12, text: "Ku adalah manusia yang paling beruntung memiliki kamu" },
+  { time: 26, text: "Kau tiada habisnya menyayangi aku sepenuh hatimu" },
+  { time: 40, text: "Cinta yang luar biasa kuserahkan pada dirimu" },
+  { time: 57, text: "Kaulah cinta sesungguhnya, sekuat hati ku 'kan menjagamu" },
+  { time: 71, text: "Demi cinta seutuhnya, ku 'kan berjanji seumur hidupku" },
+  { time: 85, text: "Takkan lelah mendampingimu" },
+  { time: 97, text: "Kau tiada habisnya menyayangi aku sepenuh hatimu" },
+  { time: 111, text: "Cinta yang luar biasa kuserahkan pada dirimu" },
+  { time: 128, text: "Kaulah cinta sesungguhnya, sekuat hati ku kan menjagamu" },
+  { time: 142, text: "Demi cinta seutuhnya, ku 'kan berjanji seumur hidupku" },
+  { time: 157, text: "Takkan lelah mendampingimu" },
+  { time: 166, text: "(Kaulah cinta sesungguhnya, sekuat hatiku kan menjagamu)" },
+  { time: 180, text: "Kaulah cinta sesungguhnya, sekuat hatiku kan menjagamu<br><small>(Kaulah cintaku)</small>" },
+  { time: 194, text: "Demi cinta seutuhnya, ku 'kan berjanji<br><small>(Ku 'kan berjanji)</small>" },
+  { time: 206, text: "Takkan lelah mendampingimu" },
+  { time: 212, text: "Hoooo ohhhh..." },
+  { time: 217, text: "Ku kan berjanji seumur hidupku takkan lelah mendampingimu" },
+  { time: 239, text: " " }, // This clears the screen after the line finishes
+  { time: 246, text: "Ku kan berjanji seumur hidupku takkan lelah mendampingimu" },
+  { time: 265, text: "🎶..." } // This clears the screen after the line finishes
+];
+
+// 2. The Play/Pause Button Logic
+musicBtn.addEventListener('click', function() {
+  if (isPlaying) {
+    bgMusic.pause();
+    musicBtn.innerText = '🎵 Lagu Sini!';
+  } else {
+    bgMusic.play();
+    musicBtn.innerText = '🔇 Pause Lagu';
+    lyricsDisplay.style.display = 'block'; // Show lyrics when music starts
+  }
+  isPlaying = !isPlaying;
+});
+
+// 3. Reverted Lyrics Sync Logic (Simple Fade)
+bgMusic.addEventListener('timeupdate', () => {
+  const currentTime = bgMusic.currentTime;
+  let currentText = "🎶...";
+
+  // Find which lyric should be showing right now
+  for (let i = 0; i < lyrics.length; i++) {
+    if (currentTime >= lyrics[i].time) {
+      currentText = lyrics[i].text;
+    }
+  }
+
+  // If the text needs to change, fade it out, change it, and fade it back in
+  // We use .innerHTML here so your <br> and <small> tags work
+  if (lyricsDisplay.innerHTML !== currentText) {
+    lyricsDisplay.style.opacity = 0; 
+    
+    setTimeout(() => {
+      lyricsDisplay.innerHTML = currentText;
+      
+      // Keep it hidden if the text is just a space " "
+      lyricsDisplay.style.opacity = (currentText.trim() === "") ? 0 : 1;
+    }, 400); 
+  }
+});
