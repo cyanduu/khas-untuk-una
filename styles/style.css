@@ -203,6 +203,7 @@ li span {
   height: 100vh;
   z-index: 9999;
   display: none;
+  flex-direction: column; /* Better for mobile fallback */
   justify-content: center;
   align-items: center;
   overflow: hidden; 
@@ -281,14 +282,14 @@ li span {
   }
 
   #wishes-container {
-    display: block; 
-    position: relative; 
+    position: absolute; 
     width: 100%;
     height: auto; 
     min-height: 100vh;
     padding: 40px 0 150px 0; 
     z-index: 999;
     -webkit-overflow-scrolling: touch; 
+    overflow-y: auto;
   }
 
   .essay-box {

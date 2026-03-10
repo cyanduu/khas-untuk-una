@@ -106,7 +106,7 @@ x = setInterval(function() {
 
     // FIX: Detect mobile and scale font size down by 40% if screen is narrow
     this.mobileScale = window.innerWidth < 768 ? 0.6 : 1;
-    this.fontSize = opts.charSize * this.mobileScale;
+    this.fontSize = (opts.charSize || 40) * this.mobileScale;
 
     // Use the scaled font to measure width for perfect centering
     ctx.font = "bold " + this.fontSize + "px Georgia";
