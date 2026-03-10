@@ -104,13 +104,18 @@ x = setInterval(function() {
     this.x = x;
     this.y = y;
 
+    // FIX: Detect mobile and scale font size down by 40% if screen is narrow
+    this.mobileScale = window.innerWidth < 768 ? 0.6 : 1;
+    this.fontSize = opts.charSize * this.mobileScale;
+
+    // Use the scaled font to measure width for perfect centering
+    ctx.font = "bold " + this.fontSize + "px Georgia";
     this.dx = -ctx.measureText(char).width / 2;
-    this.dy = +opts.charSize / 2;
+    this.dy = +this.fontSize / 2;
 
     this.fireworkDy = this.y - hh;
 
     let hue = (x / calc.totalWidth) * 360;
-
     this.color = 'hsl(hue,80%,50%)'.replace('hue', hue);
     this.lightAlphaColor = 'hsla(hue,80%,light%,alp)'.replace('hue', hue);
     this.lightColor = 'hsl(hue,80%,light%)'.replace('hue', hue);
@@ -118,19 +123,17 @@ x = setInterval(function() {
 
     this.reset();
   }
+
   Letter.prototype.reset = function() {
     this.phase = 'firework';
     this.tick = 0;
     this.spawned = false;
     this.spawningTime = (opts.fireworkSpawnTime * Math.random()) | 0;
-    this.reachTime =
-      (opts.fireworkBaseReachTime +
-        opts.fireworkAddedReachTime * Math.random()) |
-      0;
-    this.lineWidth =
-      opts.fireworkBaseLineWidth + opts.fireworkAddedLineWidth * Math.random();
+    this.reachTime = (opts.fireworkBaseReachTime + opts.fireworkAddedReachTime * Math.random()) | 0;
+    this.lineWidth = opts.fireworkBaseLineWidth + opts.fireworkAddedLineWidth * Math.random();
     this.prevPoints = [[0, hh, 0]];
   };
+
   Letter.prototype.step = function() {
     if (this.phase === 'firework') {
       if (!this.spawned) {
@@ -141,27 +144,20 @@ x = setInterval(function() {
         }
       } else {
         ++this.tick;
-
         let linearProportion = this.tick / this.reachTime,
-          armonicProportion = Math.sin(linearProportion * TauQuarter),
-          x = linearProportion * this.x,
-          y = hh + armonicProportion * this.fireworkDy;
+            armonicProportion = Math.sin(linearProportion * (Math.PI / 2)),
+            x = linearProportion * this.x,
+            y = hh + armonicProportion * this.fireworkDy;
 
-        if (this.prevPoints.length > opts.fireworkPrevPoints)
-          this.prevPoints.shift();
-
+        if (this.prevPoints.length > opts.fireworkPrevPoints) this.prevPoints.shift();
         this.prevPoints.push([x, y, linearProportion * this.lineWidth]);
 
         let lineWidthProportion = 1 / (this.prevPoints.length - 1);
 
         for (let i = 1; i < this.prevPoints.length; ++i) {
           let point = this.prevPoints[i],
-            point2 = this.prevPoints[i - 1];
-
-          ctx.strokeStyle = this.alphaColor.replace(
-            'alp',
-            i / this.prevPoints.length
-          );
+              point2 = this.prevPoints[i - 1];
+          ctx.strokeStyle = this.alphaColor.replace('alp', i / this.prevPoints.length);
           ctx.lineWidth = point[2] * lineWidthProportion * i;
           ctx.beginPath();
           ctx.moveTo(point[0], point[1]);
@@ -171,59 +167,40 @@ x = setInterval(function() {
 
         if (this.tick >= this.reachTime) {
           this.phase = 'contemplate';
-
-          this.circleFinalSize =
-            opts.fireworkCircleBaseSize +
-            opts.fireworkCircleAddedSize * Math.random();
-          this.circleCompleteTime =
-            (opts.fireworkCircleBaseTime +
-              opts.fireworkCircleAddedTime * Math.random()) |
-            0;
+          this.circleFinalSize = opts.fireworkCircleBaseSize + opts.fireworkCircleAddedSize * Math.random();
+          this.circleCompleteTime = (opts.fireworkCircleBaseTime + opts.fireworkCircleAddedTime * Math.random()) | 0;
           this.circleCreating = true;
           this.circleFading = false;
-
-          this.circleFadeTime =
-            (opts.fireworkCircleFadeBaseTime +
-              opts.fireworkCircleFadeAddedTime * Math.random()) |
-            0;
+          this.circleFadeTime = (opts.fireworkCircleFadeBaseTime + opts.fireworkCircleFadeAddedTime * Math.random()) | 0;
           this.tick = 0;
           this.tick2 = 0;
-
           this.shards = [];
-
-          let shardCount =
-              (opts.fireworkBaseShards +
-                opts.fireworkAddedShards * Math.random()) |
-              0,
-            angle = Tau / shardCount,
-            cos = Math.cos(angle),
-            sin = Math.sin(angle),
-            x = 1,
-            y = 0;
+          let shardCount = (opts.fireworkBaseShards + opts.fireworkAddedShards * Math.random()) | 0,
+              angle = (Math.PI * 2) / shardCount,
+              cos = Math.cos(angle),
+              sin = Math.sin(angle),
+              sx = 1, sy = 0;
 
           for (let i = 0; i < shardCount; ++i) {
-            let x1 = x;
-            x = x * cos - y * sin;
-            y = y * cos + x1 * sin;
-
-            this.shards.push(new Shard(this.x, this.y, x, y, this.alphaColor));
+            let x1 = sx;
+            sx = sx * cos - sy * sin;
+            sy = sy * cos + x1 * sin;
+            this.shards.push(new Shard(this.x, this.y, sx, sy, this.alphaColor));
           }
         }
       }
     } else if (this.phase === 'contemplate') {
       ++this.tick;
+      // Set the scaled font before drawing text
+      ctx.font = "bold " + this.fontSize + "px Georgia";
 
       if (this.circleCreating) {
         ++this.tick2;
         let proportion = this.tick2 / this.circleCompleteTime,
-          armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
-
+            armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
         ctx.beginPath();
-        ctx.fillStyle = this.lightAlphaColor
-          .replace('light', 50 + 50 * proportion)
-          .replace('alp', proportion);
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, armonic * this.circleFinalSize, 0, Tau);
+        ctx.fillStyle = this.lightAlphaColor.replace('light', 50 + 50 * proportion).replace('alp', proportion);
+        ctx.arc(this.x, this.y, armonic * this.circleFinalSize, 0, Math.PI * 2);
         ctx.fill();
 
         if (this.tick2 > this.circleCompleteTime) {
@@ -237,13 +214,10 @@ x = setInterval(function() {
 
         ++this.tick2;
         let proportion = this.tick2 / this.circleFadeTime,
-          armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
-
+            armonic = -Math.cos(proportion * Math.PI) / 2 + 0.5;
         ctx.beginPath();
-        ctx.fillStyle = this.lightAlphaColor
-          .replace('light', 100)
-          .replace('alp', 1 - armonic);
-        ctx.arc(this.x, this.y, this.circleFinalSize, 0, Tau);
+        ctx.fillStyle = this.lightAlphaColor.replace('light', 100).replace('alp', 1 - armonic);
+        ctx.arc(this.x, this.y, this.circleFinalSize, 0, Math.PI * 2);
         ctx.fill();
 
         if (this.tick2 >= this.circleFadeTime) this.circleFading = false;
@@ -254,7 +228,6 @@ x = setInterval(function() {
 
       for (let i = 0; i < this.shards.length; ++i) {
         this.shards[i].step();
-
         if (!this.shards[i].alive) {
           this.shards.splice(i, 1);
           --i;
@@ -263,33 +236,25 @@ x = setInterval(function() {
 
       if (this.tick > opts.letterContemplatingWaitTime) {
         this.phase = 'balloon';
-
         this.tick = 0;
         this.spawning = true;
         this.spawnTime = (opts.balloonSpawnTime * Math.random()) | 0;
         this.inflating = false;
-        this.inflateTime =
-          (opts.balloonBaseInflateTime +
-            opts.balloonAddedInflateTime * Math.random()) |
-          0;
-        this.size =
-          (opts.balloonBaseSize + opts.balloonAddedSize * Math.random()) | 0;
-
-        let rad =
-            opts.balloonBaseRadian + opts.balloonAddedRadian * Math.random(),
-          vel = opts.balloonBaseVel + opts.balloonAddedVel * Math.random();
-
+        this.inflateTime = (opts.balloonBaseInflateTime + opts.balloonAddedInflateTime * Math.random()) | 0;
+        this.size = (opts.balloonBaseSize + opts.balloonAddedSize * Math.random()) | 0;
+        let rad = opts.balloonBaseRadian + opts.balloonAddedRadian * Math.random(),
+            vel = opts.balloonBaseVel + opts.balloonAddedVel * Math.random();
         this.vx = Math.cos(rad) * vel;
         this.vy = Math.sin(rad) * vel;
       }
     } else if (this.phase === 'balloon') {
       ctx.strokeStyle = this.lightColor.replace('light', 80);
+      ctx.font = "bold " + this.fontSize + "px Georgia"; // Maintain font size for balloons
 
       if (this.spawning) {
         ++this.tick;
         ctx.fillStyle = this.lightColor.replace('light', 70);
         ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-
         if (this.tick >= this.spawnTime) {
           this.tick = 0;
           this.spawning = false;
@@ -297,24 +262,19 @@ x = setInterval(function() {
         }
       } else if (this.inflating) {
         ++this.tick;
-
         let proportion = this.tick / this.inflateTime,
-          x = (this.cx = this.x),
-          y = (this.cy = this.y - this.size * proportion);
-
+            bx = (this.cx = this.x),
+            by = (this.cy = this.y - this.size * proportion);
         ctx.fillStyle = this.alphaColor.replace('alp', proportion);
         ctx.beginPath();
-        generateBalloonPath(x, y, this.size * proportion);
+        generateBalloonPath(bx, by, this.size * proportion);
         ctx.fill();
-
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x, this.y);
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx, this.y);
         ctx.stroke();
-
         ctx.fillStyle = this.lightColor.replace('light', 70);
         ctx.fillText(this.char, this.x + this.dx, this.y + this.dy);
-
         if (this.tick >= this.inflateTime) {
           this.tick = 0;
           this.inflating = false;
@@ -322,26 +282,17 @@ x = setInterval(function() {
       } else {
         this.cx += this.vx;
         this.cy += this.vy += opts.upFlow;
-
         ctx.fillStyle = this.color;
         ctx.beginPath();
         generateBalloonPath(this.cx, this.cy, this.size);
         ctx.fill();
-
         ctx.beginPath();
         ctx.moveTo(this.cx, this.cy);
         ctx.lineTo(this.cx, this.cy + this.size);
         ctx.stroke();
-
         ctx.fillStyle = this.lightColor.replace('light', 70);
-        ctx.fillText(
-          this.char,
-          this.cx + this.dx,
-          this.cy + this.dy + this.size
-        );
-
-        if (this.cy + this.size < -hh || this.cx < -hw || this.cy > hw)
-          this.phase = 'done';
+        ctx.fillText(this.char, this.cx + this.dx, this.cy + this.dy + this.size);
+        if (this.cy + this.size < -hh || this.cx < -hw || this.cy > hw) this.phase = 'done';
       }
     }
   };

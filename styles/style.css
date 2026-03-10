@@ -12,6 +12,9 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+  max-width: 100vw;
+  height: auto !important;
+  object-fit: contain;
   /* Soft fade-in for the fireworks */
   animation: fadeIn 2s ease-in-out;
 }
