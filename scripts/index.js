@@ -539,6 +539,8 @@ musicBtn.addEventListener('click', function() {
   isPlaying = !isPlaying;
 });
 
+let currentlyShowingText = "🎶...";
+
 // 3. Reverted Lyrics Sync Logic (Simple Fade)
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
@@ -554,6 +556,7 @@ bgMusic.addEventListener('timeupdate', () => {
   // If the text needs to change, fade it out, change it, and fade it back in
   // We use .innerHTML here so your <br> and <small> tags work
   if (lyricsDisplay.innerHTML !== currentText) {
+    currentlyShowingText = currentText;
     lyricsDisplay.style.opacity = 0; 
     
     setTimeout(() => {
