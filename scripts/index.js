@@ -89,13 +89,26 @@ x = setInterval(function() {
       balloonAddedRadian: -1
     },
     calc = {
-      totalWidth:
-        opts.charSpacing *
-        Math.max(opts.strings[0].length, opts.strings[1].length)
+      totalWidth: 1 // We will recalculate this dynamically below
     },
     Tau = Math.PI * 2,
     TauQuarter = Tau / 4,
     letters = [];
+
+  // ==========================================
+  // THE FIX: Shrink Spacing AND Font for Mobile
+  // ==========================================
+  let mobileScale = window.innerWidth < 768 ? 0.45 : 1; 
+  opts.charSize = opts.charSize * mobileScale;
+  opts.charSpacing = opts.charSpacing * mobileScale;
+  opts.lineHeight = opts.lineHeight * mobileScale;
+
+  // Recalculate width to account for her full name (which is strings[2])
+  calc.totalWidth = opts.charSpacing * Math.max(
+    opts.strings[0].length, 
+    opts.strings[1].length, 
+    opts.strings[2].length
+  );
 
   ctx.font = 'bold ' + opts.charSize + 'px Georgia, serif';
 
@@ -104,11 +117,9 @@ x = setInterval(function() {
     this.x = x;
     this.y = y;
 
-    // FIX: Detect mobile and scale font size down by 40% if screen is narrow
-    this.mobileScale = window.innerWidth < 768 ? 0.6 : 1;
-    this.fontSize = (opts.charSize || 40) * this.mobileScale;
+    // We pass the globally scaled size so your animation code keeps working!
+    this.fontSize = opts.charSize;
 
-    // Use the scaled font to measure width for perfect centering
     ctx.font = "bold " + this.fontSize + "px Georgia";
     this.dx = -ctx.measureText(char).width / 2;
     this.dy = +this.fontSize / 2;
