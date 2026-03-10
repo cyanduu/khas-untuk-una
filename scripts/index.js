@@ -541,25 +541,25 @@ musicBtn.addEventListener('click', function() {
   isPlaying = !isPlaying;
 });
 
-// 3. Bulletproof Lyrics Sync (Instant swap, no buggy animations)
-let currentlyShowingText = "";
-
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let currentText = "🎶...";
 
+  // Find the right lyric
   for (let i = 0; i < lyrics.length; i++) {
     if (currentTime >= lyrics[i].time) {
       currentText = lyrics[i].text;
     }
   }
 
-  // Instantly update the HTML without timeouts
-  if (currentlyShowingText !== currentText) {
-    currentlyShowingText = currentText;
-    lyricsDisplay.innerHTML = currentText;
-    
-    // Hide the box if the text is just a blank space
+  // FORCE the box to be visible and opaque while the song plays
+  if (isPlaying) {
+    lyricsDisplay.style.display = 'block';
     lyricsDisplay.style.opacity = (currentText.trim() === "") ? 0 : 1;
+  }
+
+  // Swap the text instantly
+  if (lyricsDisplay.innerHTML !== currentText) {
+    lyricsDisplay.innerHTML = currentText;
   }
 });

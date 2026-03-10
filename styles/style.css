@@ -286,7 +286,7 @@ li span {
     width: 100%;
     height: auto; 
     min-height: 100vh;
-    padding: 30px 15px 150px 15px; 
+    padding: 20px 0 150px 0; 
     z-index: 999;
     overflow-x: hidden; 
     -webkit-overflow-scrolling: touch; 
@@ -306,16 +306,15 @@ li span {
     margin-top: -100px; /* Pulls the box up to perfectly center it */
   }
 
+  /* Exactly as it was in your screenshot */
   .essay-box {
-    width: 85%; 
-    margin: 40px auto 80px auto; 
+    width: 82%; 
+    margin: 0 3% 100px auto; /* Added 100px bottom margin for the bottom pics */
+    padding: 30px 20px 30px 40px; 
     
-    /* Normal padding so your text isn't cramped! */
-    padding: 30px; 
-    
-    font-size: 0.95rem; 
+    font-size: 0.85rem; 
     line-height: 1.6;
-    text-align: left !important; 
+    text-align: justify; 
     
     background-color: rgba(20, 20, 20, 0.85); 
     color: #f1f1f1; 
@@ -326,40 +325,49 @@ li span {
 
   .essay-box h1 {
     font-size: 1.5rem;
-    text-align: right !important; 
-    margin-bottom: 20px;
+    text-align: right; 
+    margin-bottom: 15px;
     color: #D4AF37; 
   }
 
-  /* 2. THE PHOTOS (Scrapbook overlap style) */
   .scatter-photo {
     position: absolute !important;
-    width: 75px !important; 
-    height: 75px !important;
+    width: 90px !important; 
+    height: 90px !important;
     object-fit: cover !important;
     z-index: 10 !important; 
     
     border: 2px solid #D4AF37 !important; 
-    border-radius: 6px !important;
-    box-shadow: 2px 4px 10px rgba(0,0,0,0.8) !important;
-    image-rendering: -webkit-optimize-contrast !important;
+    border-radius: 8px !important;
+    box-shadow: 3px 3px 12px rgba(0,0,0,0.8) !important;
+    image-rendering: -webkit-optimize-contrast !important; /* Keeps it HD */
   }
 
-  /* 3. THE NATURAL OVERLAP (Anchored to the borders) */
-  .photo1 { top: -20px; left: -20px; transform: rotate(-8deg) !important; }
-  .photo2 { top: 35%; left: -25px; transform: rotate(5deg) !important; }
-  .photo3 { top: 75%; left: -15px; transform: rotate(-6deg) !important; }
-  
-  .photo4 { bottom: -20px; left: 15%; transform: rotate(7deg) !important; }
-  .photo5 { bottom: -25px; left: 50%; transform: rotate(-4deg) !important; }
-  .photo6 { bottom: -15px; right: -10px; transform: rotate(8deg) !important; }
+  /* 3 Photos hugging the Left Edge */
+  .photo1 { top: 80px; left: 2% !important; right: auto !important; transform: rotate(-6deg) !important; }
+  .photo2 { top: 220px; left: 2% !important; right: auto !important; transform: rotate(4deg) !important; }
+  .photo3 { top: 360px; left: 2% !important; right: auto !important; transform: rotate(-5deg) !important; }
 
+  /* 3 Photos along the Bottom Edge */
+  .photo4 { bottom: 40px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
+  .photo5 { bottom: 30px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
+  .photo6 { bottom: 40px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
+
+  /* Lyrics Box Forced Visibility */
   #lyrics-display {
+    position: fixed !important;
+    display: none; /* JS will change this to block */
     width: 85%;
     font-size: 0.95rem;
     bottom: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
     white-space: normal; 
     padding: 10px 15px;
+    background: rgba(10, 10, 10, 0.95) !important;
+    color: #D4AF37 !important;
+    border: 1px solid #D4AF37 !important;
+    z-index: 99999 !important; 
   }
 }
 
