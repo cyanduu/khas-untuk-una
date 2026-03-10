@@ -20,12 +20,11 @@ canvas {
 }
 
 body {
-  /* Romantic animated background gradient */
-  background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #ffdfd3, #fbc2eb);
+  /* Elegant Dark Gradient (Soft blacks and deep charcoal) */
+  background: linear-gradient(-45deg, #0a0a0a, #1a1a1a, #0f0f0f, #000000);
   background-size: 400% 400%;
   animation: romanticVibe 15s ease infinite;
   overflow: hidden;
-  /* Hardware acceleration for smoother background transitions */
   transform: translateZ(0);
   will-change: background-position;
 }

@@ -17,7 +17,10 @@ function hideEverything() {
 
 hideEverything();
 
-const confettiSettings = { target: 'confetti' };
+const confettiSettings = { 
+  target: 'confetti',
+  colors: [[255, 215, 0], [218, 165, 32], [240, 230, 140]] // Premium Gold Shades
+};
 const confetti = new window.ConfettiGenerator(confettiSettings);
 confetti.render();
 
@@ -126,11 +129,10 @@ x = setInterval(function() {
 
     this.fireworkDy = this.y - hh;
 
-    let hue = (x / calc.totalWidth) * 360;
-    this.color = 'hsl(hue,80%,50%)'.replace('hue', hue);
-    this.lightAlphaColor = 'hsla(hue,80%,light%,alp)'.replace('hue', hue);
-    this.lightColor = 'hsl(hue,80%,light%)'.replace('hue', hue);
-    this.alphaColor = 'hsla(hue,80%,50%,alp)'.replace('hue', hue);
+    this.color = 'hsl(45, 100%, 50%)'; 
+    this.lightAlphaColor = 'hsla(45, 100%, light%, alp)';
+    this.lightColor = 'hsl(45, 100%, light%)';
+    this.alphaColor = 'hsla(45, 100%, 50%, alp)';
 
     this.reset();
   }
@@ -257,6 +259,17 @@ x = setInterval(function() {
             vel = opts.balloonBaseVel + opts.balloonAddedVel * Math.random();
         this.vx = Math.cos(rad) * vel;
         this.vy = Math.sin(rad) * vel;
+
+        // --- NEW: CUSTOM BALLOON COLORS ---
+        const bColors = [
+          {r: 255, g: 50, b: 50},   // Elegant Red
+          {r: 50, g: 205, b: 50},   // Elegant Green
+          {r: 30, g: 144, b: 255},  // Elegant Blue
+          {r: 255, g: 255, b: 255}  // White
+        ];
+        let bc = bColors[Math.floor(Math.random() * bColors.length)];
+        this.myBalloonColor = `rgb(${bc.r}, ${bc.g}, ${bc.b})`;
+        this.myBalloonAlphaColor = `rgba(${bc.r}, ${bc.g}, ${bc.b}, alp)`;
       }
     } else if (this.phase === 'balloon') {
       ctx.strokeStyle = this.lightColor.replace('light', 80);
@@ -276,7 +289,7 @@ x = setInterval(function() {
         let proportion = this.tick / this.inflateTime,
             bx = (this.cx = this.x),
             by = (this.cy = this.y - this.size * proportion);
-        ctx.fillStyle = this.alphaColor.replace('alp', proportion);
+        ctx.fillStyle = this.myBalloonAlphaColoralphaColor.replace('alp', proportion);
         ctx.beginPath();
         generateBalloonPath(bx, by, this.size * proportion);
         ctx.fill();
@@ -293,7 +306,7 @@ x = setInterval(function() {
       } else {
         this.cx += this.vx;
         this.cy += this.vy += opts.upFlow;
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = this.myBalloonColor;
         ctx.beginPath();
         generateBalloonPath(this.cx, this.cy, this.size);
         ctx.fill();
