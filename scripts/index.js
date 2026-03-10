@@ -526,40 +526,44 @@ const lyrics = [
   { time: 265, text: "🎶..." }
 ];
 
-// 2. The Play/Pause Logic (Forces the box to show/hide)
+let currentlyShowingText = "";
+
+// 2. The Play/Pause Logic (Brute Force Show/Hide)
 musicBtn.addEventListener('click', function() {
   if (isPlaying) {
     bgMusic.pause();
     musicBtn.innerText = '🎵 Lagu Sini!';
-    lyricsDisplay.style.display = 'none'; // Hide when paused
+    lyricsDisplay.style.setProperty('display', 'none', 'important');
   } else {
     bgMusic.play();
     musicBtn.innerText = '🔇 Pause Lagu';
-    lyricsDisplay.style.display = 'block'; // Force show when playing
-    lyricsDisplay.style.opacity = 1;       // Force opacity
+    lyricsDisplay.style.setProperty('display', 'block', 'important');
+    lyricsDisplay.style.setProperty('opacity', '1', 'important');
   }
   isPlaying = !isPlaying;
 });
 
+// 3. Brute Force Lyrics Update
 bgMusic.addEventListener('timeupdate', () => {
   const currentTime = bgMusic.currentTime;
   let currentText = "🎶...";
 
-  // Find the right lyric
   for (let i = 0; i < lyrics.length; i++) {
     if (currentTime >= lyrics[i].time) {
       currentText = lyrics[i].text;
     }
   }
 
-  // FORCE the box to be visible and opaque while the song plays
-  if (isPlaying) {
-    lyricsDisplay.style.display = 'block';
-    lyricsDisplay.style.opacity = (currentText.trim() === "") ? 0 : 1;
+  // Update text only if it actually changed
+  if (currentlyShowingText !== currentText) {
+    currentlyShowingText = currentText;
+    lyricsDisplay.innerHTML = currentText;
   }
 
-  // Swap the text instantly
-  if (lyricsDisplay.innerHTML !== currentText) {
-    lyricsDisplay.innerHTML = currentText;
+  // Force visibility properties while playing
+  if (isPlaying) {
+    lyricsDisplay.style.setProperty('display', 'block', 'important');
+    let textIsEmpty = (currentText.trim() === "");
+    lyricsDisplay.style.setProperty('opacity', textIsEmpty ? '0' : '1', 'important');
   }
 });
