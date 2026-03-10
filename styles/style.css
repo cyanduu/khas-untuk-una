@@ -241,51 +241,64 @@ body {
 /* ========================================= */
 
 @media (max-width: 768px) {
+  /* Fix for the background flickering */
+  body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    height: auto;
+    position: relative;
+  }
+
   #wishes-container {
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto; /* Allows the whole screen to scroll */
-    padding: 20px 0 100px 0; /* Extra bottom padding for the lyrics */
-    display: block; /* Changes from flex to block for better scrolling */
+    display: block; 
+    position: relative; /* Relative is safer for long scrolling content */
+    width: 100%;
+    height: auto; 
+    min-height: 100vh;
+    padding: 40px 0 150px 0; /* Extra space at bottom for lyrics */
+    z-index: 999;
+    /* This line stops the 'glitching' on touch scroll */
+    -webkit-overflow-scrolling: touch; 
   }
 
   .essay-box {
-    margin: 20px auto;
     width: 90%;
-    max-height: none; /* Let it expand fully so the main page scrolls */
-    overflow-y: visible; 
+    margin: 0 auto 40px auto;
+    max-height: none !important; 
+    position: relative;
+    z-index: 1000; 
     text-align: justify;
     padding: 25px;
-    font-size: 1rem;
-    position: relative;
-    z-index: 20; /* Keep text above everything */
+    background-color: rgba(255, 255, 255, 0.75); /* Slightly more solid for readability */
+    /* Prevents weird text resizing on orientation change */
+    -webkit-text-size-adjust: 100%; 
   }
 
   .scatter-photo {
-    /* Stack photos naturally in the flow */
-    position: relative;
-    top: auto !important; 
-    left: auto !important; 
-    right: auto !important; 
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
     bottom: auto !important;
-    
     display: block;
-    width: 85%;
-    max-width: 300px;
+    width: 80%;
+    max-width: 280px;
     height: auto;
     margin: 20px auto;
-    transform: rotate(0) !important; 
+    z-index: 10;
+    /* Remove the 'transform: none' from here to let tilts work */
   }
   
-  /* Subtle tilts for that 'scattered' feel on mobile */
-  .photo1, .photo3, .photo5 { transform: rotate(-2deg) !important; }
-  .photo2, .photo4, .photo6 { transform: rotate(2deg) !important; }
+  /* Apply tilts cleanly without conflicting with a 'none' rule */
+  .photo1, .photo3, .photo5 { transform: rotate(-3deg); }
+  .photo2, .photo4, .photo6 { transform: rotate(3deg); }
 
-  /* Ensure lyrics don't cover the bottom text */
   #lyrics-display {
-    width: 90%;
-    font-size: 1rem;
-    bottom: 70px;
+    width: 85%;
+    font-size: 0.95rem;
+    bottom: 20px; /* Moves it to the very bottom so it doesn't block the essay */
+    white-space: normal; /* Allows lyrics to wrap if they are too long for a phone screen */
+    padding: 10px 15px;
   }
 }
 
