@@ -353,21 +353,22 @@ li span {
   right: 20px;
   z-index: 10000;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 2px solid #F64747;
+  background-color: rgba(10, 10, 10, 0.8); /* Dark frosted background */
+  backdrop-filter: blur(5px);
+  border: 2px solid #D4AF37; /* Elegant Gold */
   border-radius: 30px;
   font-family: 'Georgia', serif;
   font-size: 1rem;
   font-weight: bold;
-  color: #F64747;
+  color: #D4AF37; /* Elegant Gold */
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); /* Soft gold glow */
   transition: all 0.3s ease;
 }
 
 #musicToggle:hover {
-  background-color: #F64747;
-  color: white;
+  background-color: #D4AF37;
+  color: #111; /* Dark text on hover */
 }
 
 #lyrics-display {

@@ -289,7 +289,7 @@ x = setInterval(function() {
         let proportion = this.tick / this.inflateTime,
             bx = (this.cx = this.x),
             by = (this.cy = this.y - this.size * proportion);
-        ctx.fillStyle = this.myBalloonAlphaColoralphaColor.replace('alp', proportion);
+        ctx.fillStyle = this.myBalloonAlphaColor.replace('alp', proportion);
         ctx.beginPath();
         generateBalloonPath(bx, by, this.size * proportion);
         ctx.fill();
