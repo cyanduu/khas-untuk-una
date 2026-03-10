@@ -98,7 +98,7 @@ x = setInterval(function() {
   // ==========================================
   // THE FIX: Shrink Spacing AND Font for Mobile
   // ==========================================
-  let mobileScale = window.innerWidth < 768 ? 0.45 : 1; 
+  let mobileScale = window.innerWidth < 768 ? 0.35 : 1; 
   opts.charSize = opts.charSize * mobileScale;
   opts.charSpacing = opts.charSpacing * mobileScale;
   opts.lineHeight = opts.lineHeight * mobileScale;
