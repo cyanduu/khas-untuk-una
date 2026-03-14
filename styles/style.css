@@ -345,16 +345,15 @@ li span {
   }
 
   /* Left Edge Photos (Shifted down slightly to match the new 85px top margin) */
-  /* 2. LEFT EDGE PHOTOS (Shifted UP by 80px to stay aligned) */
-  .photo1 { bottom: 460px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-6deg) !important; }
+  .photo1 { bottom: 470px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-6deg) !important; }
   .photo2 { bottom: 360px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(4deg) !important; }
-  .photo3 { bottom: 260px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-5deg) !important; }
-  .photo7 { bottom: 165px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(6deg) !important; }
+  .photo3 { bottom: 250px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-5deg) !important; }
+  .photo7 { bottom: 140px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(6deg) !important; }
 
-  /* 3. BOTTOM PHOTOS (Shifted UP by 80px out of the lyrics zone!) */
-  .photo4 { bottom: 105px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
-  .photo5 { bottom: 95px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
-  .photo6 { bottom: 105px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
+  /* Bottom Photos (Now pulled UP tightly against the essay box) */
+  .photo4 { bottom: 20px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
+  .photo5 { bottom: 10px !important; left: 40% !important; top: auto !important; right: auto !important; transform: rotate(-4deg) !important; }
+  .photo6 { bottom: 20px !important; right: 5% !important; top: auto !important; left: auto !important; transform: rotate(5deg) !important; }
 
   #lyrics-display {
     position: fixed !important;
