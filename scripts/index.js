@@ -4,7 +4,7 @@ const giftbox = document.getElementById('merrywrap');
 const canvasC = document.getElementById('c');
 
 const config = {
-  birthdate: 'March 14, 2026',
+  birthdate: 'March 15, 2026',
   name: 'Nurul Husna Izzati'
 };
 
