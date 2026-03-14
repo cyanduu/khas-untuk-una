@@ -4,7 +4,7 @@ const giftbox = document.getElementById('merrywrap');
 const canvasC = document.getElementById('c');
 
 const config = {
-  birthdate: 'March 10, 2026',
+  birthdate: 'March 15, 2026',
   name: 'Nurul Husna Izzati'
 };
 
@@ -80,7 +80,7 @@ x = setInterval(function() {
       fireworkShardAddedSize: 3,
       gravity: 0.1,
       upFlow: -0.1,
-      letterContemplatingWaitTime: 900,
+      letterContemplatingWaitTime: 600,
       balloonSpawnTime: 20,
       balloonBaseInflateTime: 10,
       balloonAddedInflateTime: 10,
