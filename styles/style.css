@@ -345,10 +345,10 @@ li span {
   }
 
   /* 2. LEFT EDGE PHOTOS (Shifted UP by 80px to stay aligned) */
-  .photo1 { bottom: 420px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-6deg) !important; }
-  .photo2 { bottom: 320px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(4deg) !important; }
-  .photo3 { bottom: 220px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-5deg) !important; }
-  .photo7 { bottom: 125px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(6deg) !important; }
+  .photo1 { bottom: 500px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-6deg) !important; }
+  .photo2 { bottom: 400px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(4deg) !important; }
+  .photo3 { bottom: 300px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(-5deg) !important; }
+  .photo7 { bottom: 205px !important; left: 2% !important; top: auto !important; right: auto !important; transform: rotate(6deg) !important; }
 
   /* 3. BOTTOM PHOTOS (Shifted UP by 80px out of the lyrics zone!) */
   .photo4 { bottom: 105px !important; left: 10% !important; top: auto !important; right: auto !important; transform: rotate(7deg) !important; }
